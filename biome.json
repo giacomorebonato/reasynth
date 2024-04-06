@@ -1,0 +1,32 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.4.1/schema.json",
+	"organizeImports": {
+		"enabled": true
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"recommended": true,
+			"style": {
+				"noUnusedTemplateLiteral": "off"
+			}
+		}
+	},
+	"javascript": {
+		"formatter": {
+			"semicolons": "asNeeded",
+			"quoteStyle": "single",
+			"jsxQuoteStyle": "single"
+		}
+	},
+	"files": {
+		"ignore": [
+			"e2e/user.json",
+			"*.ico",
+			"*.jpg",
+			"src/route-tree.gen.ts",
+			"migrations/",
+			"dist/"
+		]
+	}
+}
