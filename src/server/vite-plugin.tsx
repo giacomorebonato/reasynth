@@ -62,7 +62,7 @@ export const vitePlugin = fastifyPlugin(async (fastify) => {
 			return reply.code(302).redirect(request.redirect.to)
 		}
 
-		// biome-ignore lint/style/noNonNullAssertion: <explanation>
+		// biome-ignore lint/style/noNonNullAssertion: helmetConext is not null if accessed after the call to getDataFromTree()
 		const { head, footer } = createTemplate(request.helmetContext!.helmet!)
 
 		const passStream = new PassThrough()

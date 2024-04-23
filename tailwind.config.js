@@ -7,7 +7,12 @@ const config = {
 		fontFamily: {
 			sans: ['"Proxima Nova"', ...defaultTheme.fontFamily.sans],
 		},
-		extend: {},
+		extend: {
+			gridColumnStart: {
+        '13': '13',
+        '14': '14',
+      }
+		},
 	},
 	daisyui: {
 		themes: false,

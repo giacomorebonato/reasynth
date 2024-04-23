@@ -72,7 +72,7 @@ export function Layout({
 					ref={checboxRef}
 				/>
 				<div className='drawer-content flex flex-col'>
-					<div className='navbar w-full bg-base-300 pr-4'>
+					{/* <div className='navbar w-full bg-base-300 pr-4'>
 						<div className='flex-none'>
 							<label
 								aria-label='open sidebar'
@@ -101,7 +101,7 @@ export function Layout({
 								className='link mx-2 px-2 no-underline hover:link-hover'
 								to='/'
 							>
-								FastRat
+								reasynth
 							</Link>
 							<a
 								className='link no-underline hover:link-hover'
@@ -138,7 +138,7 @@ export function Layout({
 								</button>
 							))
 							.otherwise(() => null)}
-					</div>
+					</div> */}
 					{children}
 					<ToastContainer
 						bodyClassName={() => 'text-sm font-white font-med block p-3'}
