@@ -1,8 +1,5 @@
 import * as Tone from 'tone'
-import { useSnapshot } from 'valtio'
-import * as SequencerActions from './sequencer-actions'
-import {} from './sequencer-actions'
-import { sequencerState } from './sequencer-state'
+import { useSequencerState } from './sequencer-state'
 import { useTone } from './use-tone'
 const measureNumbers = Array.from({ length: 10 }, (_, i) => {
 	return (i + 1) * 2
@@ -11,7 +8,7 @@ const BEAT_NUMBERS = [2, 3, 4, 5, 6, 7] as const
 
 export const SequencerForm = () => {
 	const { transportStart, transportStop, transportPause } = useTone()
-	const sequencerSnap = useSnapshot(sequencerState)
+	const { snap, actions } = useSequencerState()
 
 	return (
 		<div className='h-screen bg-slate-800'>
@@ -22,12 +19,9 @@ export const SequencerForm = () => {
 					</div>
 					<select
 						className='select select-bordered w-full'
-						value={sequencerSnap.measureTotal}
+						value={snap.measureTotal}
 						onChange={(e) => {
-							SequencerActions.updateTotalBeats(
-								+e.target.value,
-								sequencerSnap.beatsPerMeasure,
-							)
+							actions.updateTotalBeats(+e.target.value, snap.beatsPerMeasure)
 						}}
 					>
 						{measureNumbers.map((item) => {
@@ -42,12 +36,9 @@ export const SequencerForm = () => {
 					</div>
 					<select
 						className='select select-bordered w-full'
-						value={sequencerSnap.beatsPerMeasure}
+						value={snap.beatsPerMeasure}
 						onChange={(e) => {
-							SequencerActions.updateTotalBeats(
-								sequencerSnap.measureTotal,
-								+e.target.value,
-							)
+							actions.updateTotalBeats(snap.measureTotal, +e.target.value)
 						}}
 					>
 						{BEAT_NUMBERS.map((item) => {
@@ -58,8 +49,8 @@ export const SequencerForm = () => {
 				<div>
 					<div className='label'>
 						<span className='label-text'>
-							Tempo: {sequencerSnap.bpm}bpm <br />
-							Total time {sequencerSnap.totalTime.toFixed(2)} seconds
+							Tempo: {snap.bpm}bpm <br />
+							Total time {snap.totalTime.toFixed(2)} seconds
 						</span>
 					</div>
 					<input
@@ -68,10 +59,10 @@ export const SequencerForm = () => {
 						max={240}
 						className='range'
 						step={1}
-						value={sequencerSnap.bpm}
+						value={snap.bpm}
 						onChange={(e) => {
 							const bpm = Number.parseFloat(e.target.value)
-							SequencerActions.setBpm(bpm)
+							actions.setBpm(bpm)
 							Tone.Transport.bpm.value = bpm
 						}}
 					/>

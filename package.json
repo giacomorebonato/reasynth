@@ -60,6 +60,7 @@
 		"tone": "^14.7.77",
 		"ts-pattern": "^5.0.8",
 		"valtio": "^1.13.2",
+		"valtio-signal": "^0.5.0",
 		"zod": "^3.22.4",
 		"zustand": "^4.5.2"
 	},
@@ -94,7 +95,6 @@
 		"happy-dom": "^14.3.9",
 		"html-validate": "^8.18.1",
 		"husky": "^9.0.11",
-		"million": "^3.0.6",
 		"npm-run-all2": "^6.1.2",
 		"pino-pretty": "^11.0.0",
 		"postcss": "^8.4.38",

@@ -1,20 +1,16 @@
 import * as Tone from 'tone'
-import { proxy, subscribe } from 'valtio'
+import { proxy, subscribe, useSnapshot } from 'valtio'
 import { devtools } from 'valtio/utils'
+import type { Beat } from '#/types/beat'
+import { makeActions } from './sequencer-actions'
 
 const START_MEASURE_TOTAL = 4
 const START_BEATS_PER_MEASURE = 4
 
-export type Beat = {
-	index: number
-	notesToPlay: readonly string[]
-	time: number
-	selected: boolean
-	active: boolean
-}
+
 export type TransportStatus = Parameters<typeof Tone.Transport.on>[0]
 
-const state = {
+const rawState = {
 	transportLastEvent: 'stop' as TransportStatus,
 	bpm: 120,
 	focusedBeatIndex: 0,
@@ -53,33 +49,32 @@ const state = {
 		}
 
 		return beatsArray
-	},
-	get toPlay() {
-		return this.beats
-			.filter((beat) => {
-				return beat.notesToPlay.length > 0
-			})
-			.map((beat) => {
-				return [{ time: beat.time, note: Array.from(beat.notesToPlay) }]
-			})
-	},
+	}
 }
 
 declare global {
 	interface Window {
-		sequencerState: typeof state
+		sequencerState: typeof rawState
 	}
 }
 
-export const sequencerState = proxy(state)
+export const proxyState = proxy(rawState)
 
-window.sequencerState = state
+const actions = makeActions(proxyState)
 
-subscribe(sequencerState, () => {
-	localStorage.setItem('sequencer-state', JSON.stringify(sequencerState))
+window.sequencerState = proxyState
 
-	Tone.Transport.loopEnd = sequencerState.totalTime
-	window.sequencerState = sequencerState
+subscribe(proxyState, () => {
+	localStorage.setItem('sequencer-state', JSON.stringify(proxyState))
+
+	Tone.Transport.loopEnd = proxyState.totalTime
+	window.sequencerState = proxyState
 })
 
-devtools(sequencerState)
+devtools(proxyState)
+
+export const useSequencerState = () => {
+	const snap = useSnapshot(proxyState)
+
+	return { snap, actions }
+}

@@ -1,10 +1,12 @@
+/** @jsxImportSource valtio-signal */
+
 import { clsx } from 'clsx'
 import { memo } from 'react'
-import type { Beat } from './sequencer-state'
+import type { Beat } from '#/types/beat'
 
 type BeatProps = {
 	beat: Beat
-	playingBeatIndex: number | null
+	// playingBeatIndex: number | null
 	onActivate: (beat: Beat) => void
 	onSelect: (beat: Beat) => void
 }
@@ -14,7 +16,7 @@ export function BeatCell(props: BeatProps) {
 		<div
 			className={clsx(
 				'text-center min-h-8 border-2 border-gray-800 rounded-sm flex flex-col',
-				{ 'border-yellow-400': props.beat.index === props.playingBeatIndex },
+				// { 'border-yellow-400': props.beat.index === props.playingBeatIndex },
 			)}
 			data-index={`beat-${props.beat.index}`}
 		>

@@ -1,15 +1,13 @@
 import { useEffect } from 'react'
 import * as Tone from 'tone'
-import { useSnapshot } from 'valtio'
 import { Layout } from '#/browser/layout'
 import { BeatCellMemo } from './beat-cell'
-import * as SequencerActions from './sequencer-actions'
 import SequencerForm from './sequencer-form'
 import { SequencerNotes } from './sequencer-notes'
-import { sequencerState } from './sequencer-state'
+import { proxyState, useSequencerState } from './sequencer-state'
 
 export const Sequencer = () => {
-	const sequencerSnap = useSnapshot(sequencerState)
+	const { actions, snap } = useSequencerState()
 
 	useEffect(() => {
 		const playPause = (event: KeyboardEvent) => {
@@ -33,22 +31,22 @@ export const Sequencer = () => {
 					className={'border p-2 grid rounded'}
 					style={{
 						gridTemplateColumns: `repeat(${
-							sequencerSnap.beatsPerMeasure * 2
+							snap.beatsPerMeasure * 2
 						}, minmax(0, 1fr))`,
 					}}
 				>
-					{sequencerSnap.beats.map((beat) => {
+					{snap.beats.map((beat) => {
 						return (
 							<BeatCellMemo
 								key={`beat-${beat.index}`}
-								playingBeatIndex={sequencerSnap.playingBeatIndex}
+								// playingBeatIndex={snap.playingBeatIndex}
 								beat={beat}
 								onActivate={(beat) => {
-									SequencerActions.setCurrentBeat(beat.index)
-									SequencerActions.toggleBeatActivation(beat.index)
+									actions.setCurrentBeat(beat.index)
+									actions.toggleBeatActivation(beat.index)
 								}}
 								onSelect={(beat) => {
-									SequencerActions.setCurrentBeat(beat.index)
+									actions.setCurrentBeat(beat.index)
 								}}
 							/>
 						)
@@ -56,9 +54,9 @@ export const Sequencer = () => {
 				</div>
 
 				<SequencerNotes
-					currentCell={sequencerSnap.focusedBeatIndex}
-					selectedNotes={sequencerSnap.currentCellNotes}
-					onNoteClick={SequencerActions.updateNoteForCell}
+					currentCell={snap.focusedBeatIndex}
+					selectedNotes={snap.currentCellNotes}
+					onNoteClick={actions.updateNoteForCell}
 				/>
 			</main>
 		</Layout>

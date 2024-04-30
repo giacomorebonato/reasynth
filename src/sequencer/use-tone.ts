@@ -1,11 +1,13 @@
 import { useEffect, useRef } from 'react'
 import * as Tone from 'tone'
 import { useSnapshot } from 'valtio'
-import { setPlayingBeatIndex } from './sequencer-actions'
-import { sequencerState } from './sequencer-state'
+import { proxyState, useSequencerState } from './sequencer-state'
+
+const className = 'border-yellow-400'
 
 export const useTone = () => {
-	const sequencerSnap = useSnapshot(sequencerState)
+	const { actions } = useSequencerState()
+	const sequencerSnap = useSnapshot(proxyState)
 	const repeatRef = useRef<number>()
 
 	useEffect(() => {
@@ -26,14 +28,27 @@ export const useTone = () => {
 					// don't access snap in here
 					// it doesn't receive the updates
 					const beatIndex = window.sequencerState.playingBeatIndex % window.sequencerState.totalBeats
+
+					const previousBeatCelll = document.querySelector(`.${className}`);
+
+					if (previousBeatCelll) {
+						previousBeatCelll.classList.remove(className)
+					}
+
+					const beatCell = document.querySelector(`[data-index="beat-${beatIndex}"]`)
+
+					console.log({ beatIndex, beatCell })
+					beatCell!.classList.add(className)
 					const beat = window.sequencerState.beats[beatIndex]
 
-					synth.current.triggerAttackRelease(
-						beat.notesToPlay as string[],
-						`${sequencerSnap.beatsPerMeasure}n`,
-					)
+					if (beat.active) {
+						synth.current.triggerAttackRelease(
+							beat.notesToPlay as string[],
+							`${sequencerSnap.beatsPerMeasure}n`,
+						)
+					}
 
-					setPlayingBeatIndex(beatIndex + 1)
+					actions.setPlayingBeatIndex(beatIndex + 1)
 				},
 				`${sequencerSnap.beatsPerMeasure}n`,
 				0,
@@ -53,7 +68,7 @@ export const useTone = () => {
 				Tone.Transport.clear(repeatRef.current)
 			}
 
-			setPlayingBeatIndex(0)
+			actions.setPlayingBeatIndex(0)
 
 			Tone.Transport.stop()
 		},

@@ -1,52 +1,49 @@
-import { type TransportStatus, sequencerState } from './sequencer-state'
+import type { TransportStatus, proxyState } from './sequencer-state'
 
-export const updateSequencer = (updates: Partial<typeof sequencerState>) => {
-	Object.assign(sequencerState, updates)
-}
+export const makeActions = (state: typeof proxyState) => {
+	return {
+		updateSequencer(updates: Partial<typeof proxyState>) {
+			Object.assign(state, updates)
+		},
 
-export const setCurrentBeat = (beatIndex: number) => {
-	sequencerState.focusedBeatIndex = beatIndex
-}
+		setCurrentBeat(beatIndex: number) {
+			state.focusedBeatIndex = beatIndex
+		},
+		toggleBeatActivation(beatIndex: number) {
+			if (state.activeBeats.includes(beatIndex)) {
+				state.activeBeats.splice(beatIndex, 1)
+			} else {
+				state.activeBeats.push(beatIndex)
+			}
+		},
+		updateNoteForCell(beatIndex: number, note: string) {
+			if (!state.beatToNotes[beatIndex]) {
+				state.beatToNotes[beatIndex] = [note]
+				return
+			}
 
-export const toggleBeatActivation = (beatIndex: number) => {
-	if (sequencerState.activeBeats.includes(beatIndex)) {
-		sequencerState.activeBeats.splice(beatIndex, 1)
-	} else {
-		sequencerState.activeBeats.push(beatIndex)
+			const cellNotes = state.beatToNotes[beatIndex]
+
+			if (cellNotes.includes(note)) {
+				cellNotes.splice(cellNotes.indexOf(note), 1)
+			} else {
+				cellNotes.push(note)
+			}
+		},
+		setPlayingBeatIndex(beatIndex: number) {
+			state.playingBeatIndex = beatIndex % state.totalBeats
+		},
+		updateTotalBeats(measureTotal: number, beatsPerMeasure: number) {
+			state.measureTotal = measureTotal
+			state.beatsPerMeasure = beatsPerMeasure
+		},
+
+		setTransportLastEvent(status: TransportStatus) {
+			state.transportLastEvent = status
+		},
+
+		setBpm(bpm: number) {
+			state.bpm = bpm
+		},
 	}
-}
-
-export const updateNoteForCell = (beatIndex: number, note: string) => {
-	if (!sequencerState.beatToNotes[beatIndex]) {
-		sequencerState.beatToNotes[beatIndex] = [note]
-		return
-	}
-
-	const cellNotes = sequencerState.beatToNotes[beatIndex]
-
-	if (cellNotes.includes(note)) {
-		cellNotes.splice(cellNotes.indexOf(note), 1)
-	} else {
-		cellNotes.push(note)
-	}
-}
-
-export const setPlayingBeatIndex = (beatIndex: number) => {
-	sequencerState.playingBeatIndex = beatIndex % sequencerState.totalBeats
-}
-
-export const updateTotalBeats = (
-	measureTotal: number,
-	beatsPerMeasure: number,
-) => {
-	sequencerState.measureTotal = measureTotal
-	sequencerState.beatsPerMeasure = beatsPerMeasure
-}
-
-export const setTransportLastEvent = (status: TransportStatus) => {
-	sequencerState.transportLastEvent = status
-}
-
-export const setBpm = (bpm: number) => {
-	sequencerState.bpm = bpm
 }
