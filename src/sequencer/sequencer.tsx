@@ -1,13 +1,14 @@
 import { useEffect } from 'react'
 import * as Tone from 'tone'
 import { Layout } from '#/browser/layout'
+import { useClientState } from '#/client-state/use-client-state'
 import { BeatCellMemo } from './beat-cell'
+import { EnvelopeForm } from './envelope-form'
 import SequencerForm from './sequencer-form'
 import { SequencerNotes } from './sequencer-notes'
-import { proxyState, useSequencerState } from './sequencer-state'
 
 export const Sequencer = () => {
-	const { actions, snap } = useSequencerState()
+	const { actions, snap } = useClientState()
 
 	useEffect(() => {
 		const playPause = (event: KeyboardEvent) => {
@@ -25,7 +26,14 @@ export const Sequencer = () => {
 	}, [])
 
 	return (
-		<Layout sidebar={<SequencerForm />}>
+		<Layout
+			sidebar={
+				<>
+					<SequencerForm />
+					<EnvelopeForm />
+				</>
+			}
+		>
 			<main className='p-4 text-lg w-full grid grid-flow-row gap-2'>
 				<div
 					className={'border p-2 grid rounded'}

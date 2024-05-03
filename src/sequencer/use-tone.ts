@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react'
 import * as Tone from 'tone'
 import { useSnapshot } from 'valtio'
-import { proxyState, useSequencerState } from './sequencer-state'
+import { useClientState } from '#/client-state/use-client-state'
+import { proxyState } from './sequencer-state'
 
 const className = 'border-yellow-400'
 
 export const useTone = () => {
-	const { actions } = useSequencerState()
+	const { actions } = useClientState()
 	const sequencerSnap = useSnapshot(proxyState)
 	const repeatRef = useRef<number>()
 
@@ -22,6 +23,7 @@ export const useTone = () => {
 	const synth = useRef(new Tone.PolySynth().toDestination())
 
 	return {
+		synth: synth.current,
 		transportStart() {
 			repeatRef.current = Tone.Transport.scheduleRepeat(
 				() => {
@@ -37,7 +39,6 @@ export const useTone = () => {
 
 					const beatCell = document.querySelector(`[data-index="beat-${beatIndex}"]`)
 
-					console.log({ beatIndex, beatCell })
 					beatCell!.classList.add(className)
 					const beat = window.sequencerState.beats[beatIndex]
 

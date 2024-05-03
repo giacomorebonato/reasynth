@@ -1,8 +1,7 @@
 import * as Tone from 'tone'
-import { proxy, subscribe, useSnapshot } from 'valtio'
+import { proxy, subscribe } from 'valtio'
 import { devtools } from 'valtio/utils'
 import type { Beat } from '#/types/beat'
-import { makeActions } from './sequencer-actions'
 
 const START_MEASURE_TOTAL = 4
 const START_BEATS_PER_MEASURE = 4
@@ -60,7 +59,7 @@ declare global {
 
 export const proxyState = proxy(rawState)
 
-const actions = makeActions(proxyState)
+
 
 window.sequencerState = proxyState
 
@@ -72,9 +71,3 @@ subscribe(proxyState, () => {
 })
 
 devtools(proxyState)
-
-export const useSequencerState = () => {
-	const snap = useSnapshot(proxyState)
-
-	return { snap, actions }
-}

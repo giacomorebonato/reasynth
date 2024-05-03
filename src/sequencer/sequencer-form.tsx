@@ -1,5 +1,5 @@
 import * as Tone from 'tone'
-import { useSequencerState } from './sequencer-state'
+import { useClientState } from '#/client-state/use-client-state'
 import { useTone } from './use-tone'
 const measureNumbers = Array.from({ length: 10 }, (_, i) => {
 	return (i + 1) * 2
@@ -8,10 +8,10 @@ const BEAT_NUMBERS = [2, 3, 4, 5, 6, 7] as const
 
 export const SequencerForm = () => {
 	const { transportStart, transportStop, transportPause } = useTone()
-	const { snap, actions } = useSequencerState()
+	const { snap, actions } = useClientState()
 
 	return (
-		<div className='h-screen bg-slate-800'>
+		<div className='bg-slate-800'>
 			<div className='grid grid-cols-1 gap-2 p-2 min-w-80'>
 				<label className='form-control'>
 					<div className='label'>
