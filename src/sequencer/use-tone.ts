@@ -39,6 +39,7 @@ export const useTone = () => {
 
 					const beatCell = document.querySelector(`[data-index="beat-${beatIndex}"]`)
 
+					// biome-ignore lint/style/noNonNullAssertion: <explanation>
 					beatCell!.classList.add(className)
 					const beat = window.sequencerState.beats[beatIndex]
 
