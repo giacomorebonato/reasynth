@@ -11,7 +11,7 @@ export const Sequencer = () => {
 	const { actions, snap } = useClientState()
 
 	useEffect(() => {
-		const playPause = (event: KeyboardEvent) => {
+		const playPause = () => {
 			if (Tone.Transport.state === 'stopped') {
 				Tone.Transport.start()
 			} else {

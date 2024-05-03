@@ -23,7 +23,7 @@ export const SequencerBeforeToneStart = () => {
 			<div className='modal-box'>
 				<h3 className='font-bold text-lg'>Welcome to reasynth!</h3>
 				<p className='py-4'>
-					Press the "Start Audio" button for allowing audio to be played
+					Press the {'Start Audio'} button for allowing audio to be played
 				</p>
 				<div className='modal-action'>
 					<form method='dialog'>

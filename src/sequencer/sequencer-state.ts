@@ -6,7 +6,6 @@ import type { Beat } from '#/types/beat'
 const START_MEASURE_TOTAL = 4
 const START_BEATS_PER_MEASURE = 4
 
-
 export type TransportStatus = Parameters<typeof Tone.Transport.on>[0]
 
 const rawState = {
@@ -48,7 +47,7 @@ const rawState = {
 		}
 
 		return beatsArray
-	}
+	},
 }
 
 declare global {
@@ -58,8 +57,6 @@ declare global {
 }
 
 export const proxyState = proxy(rawState)
-
-
 
 window.sequencerState = proxyState
 

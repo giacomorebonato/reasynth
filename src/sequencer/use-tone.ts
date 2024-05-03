@@ -29,15 +29,19 @@ export const useTone = () => {
 				() => {
 					// don't access snap in here
 					// it doesn't receive the updates
-					const beatIndex = window.sequencerState.playingBeatIndex % window.sequencerState.totalBeats
+					const beatIndex =
+						window.sequencerState.playingBeatIndex %
+						window.sequencerState.totalBeats
 
-					const previousBeatCelll = document.querySelector(`.${className}`);
+					const previousBeatCelll = document.querySelector(`.${className}`)
 
 					if (previousBeatCelll) {
 						previousBeatCelll.classList.remove(className)
 					}
 
-					const beatCell = document.querySelector(`[data-index="beat-${beatIndex}"]`)
+					const beatCell = document.querySelector(
+						`[data-index="beat-${beatIndex}"]`,
+					)
 
 					// biome-ignore lint/style/noNonNullAssertion: <explanation>
 					beatCell!.classList.add(className)

@@ -14,7 +14,7 @@ module.exports = {
 		'plugin:@typescript-eslint/recommended',
 		'plugin:react/recommended',
 		'plugin:@tanstack/eslint-plugin-query/recommended',
-		'plugin:valtio/recommended'
+		'plugin:valtio/recommended',
 	],
 	overrides: [
 		{

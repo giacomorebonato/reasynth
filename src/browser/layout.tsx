@@ -1,11 +1,9 @@
-import { Link, useRouter } from '@tanstack/react-router'
+import { useRouter } from '@tanstack/react-router'
 import clsx from 'clsx'
 import type React from 'react'
 import { Suspense, lazy, useEffect, useRef } from 'react'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import { P, match } from 'ts-pattern'
-import { trpcClient } from './trpc-client'
 
 let LazyPwaReloadPrompt: React.FC = () => null
 
@@ -24,7 +22,7 @@ export function Layout({
 	children,
 	sidebar,
 }: { children: React.ReactNode; sidebar?: React.ReactNode }) {
-	const dialogRef = useRef<HTMLDialogElement | null>(null)
+	// const dialogRef = useRef<HTMLDialogElement | null>(null)
 	// const utils = trpcClient.useUtils()
 	// const profile = trpcClient.auth.profile.useQuery()
 	// const logout = trpcClient.auth.logout.useMutation({

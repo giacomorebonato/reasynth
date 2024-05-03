@@ -1,4 +1,4 @@
-import { type TransportStatus, proxyState } from '../sequencer/sequencer-state'
+import { type TransportStatus, proxyState } from '#/sequencer/sequencer-state'
 
 export function updateSequencer(updates: Partial<typeof proxyState>) {
 	Object.assign(proxyState, updates)
@@ -32,7 +32,10 @@ export function updateNoteForCell(beatIndex: number, note: string) {
 export function setPlayingBeatIndex(beatIndex: number) {
 	proxyState.playingBeatIndex = beatIndex % proxyState.totalBeats
 }
-export function updateTotalBeats(measureTotal: number, beatsPerMeasure: number) {
+export function updateTotalBeats(
+	measureTotal: number,
+	beatsPerMeasure: number,
+) {
 	proxyState.measureTotal = measureTotal
 	proxyState.beatsPerMeasure = beatsPerMeasure
 }

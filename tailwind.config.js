@@ -9,9 +9,9 @@ const config = {
 		},
 		extend: {
 			gridColumnStart: {
-        '13': '13',
-        '14': '14',
-      }
+				13: '13',
+				14: '14',
+			},
 		},
 	},
 	daisyui: {
